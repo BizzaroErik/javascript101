@@ -1,4 +1,4 @@
-
+<!--  https://github.com/Bizzaroerik/javascript101  -->
 <!DOCTYPE html>
 
 <html>
@@ -49,7 +49,6 @@
 </style>
 
 <script>
-    //https://github.com/Bizzaroerik/javascript101
     var colors = ['red', 'blue', 'gold'];
     var chicagoStartups = [
         '  Interior   Define  ',
@@ -120,9 +119,10 @@
             else {
                 //TODO:: REPLACE [chicagoStartups.reverse()] WITH A FUNCTION CALLED "chicagoStartupsReverse"
                 //chicagoStartupsReverse();
-
+                
+                //reverses array and on each element builds a new div which gets appended together and attached to reverse container
                 chicagoStartupsReverse().forEach(function(chicagoStartup, index) {
-                    console.log(chicagoStartup);
+                    //console.log(chicagoStartup);
                     var childDiv = document.createElement('div');
                     var text = document.createTextNode(chicagoStartup);
                     childDiv.appendChild(text);
@@ -138,10 +138,11 @@
             }
         }
     }
-
+    //reverses the chicagoStartups list
     function chicagoStartupsReverse() {
         var reversedStartups = [];
         var i = chicagoStartups.length-1;
+        //goes through each element in reverse order, adding it to reversedStartups array
         while(i>=0){
             reversedStartups.push(chicagoStartups[i]);
             i--;
@@ -167,8 +168,9 @@
         cleanDiv.id = 'cleanAndCountContainer';
         var cleanCompanyNamesContainer = document.createElement('div');
         chicagoStartups.forEach( function(chicagoStartup, index) {
-            
+            //replaces all special characters listed with blank
             var cleanWords = chicagoStartup.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
+            //removes leading trailing whitespace
             var cleanWords = cleanWords.trim();
             var count = cleanWords.length;
             var childDiv = document.createElement('div');
@@ -201,7 +203,7 @@
     }
 
     function toggleDisplay() {
-
+        //sets up Toggle button
         var toggleDisplayBtn = document.createElement('button');
         var btnDisplay = document.createTextNode('Toggle Display');
         toggleDisplayBtn.onclick = vertHorzSwitch;
@@ -226,36 +228,39 @@
             3.  
         */
     }
+    //global var that keeps track of it being vertical or horizontal
     var toggleSwitch;
     function vertHorzSwitch(){
         var mainCompanyList = document.getElementById('messWithMe');
+
+        //clears the list
+        while(mainCompanyList.hasChildNodes()){
+                mainCompanyList.removeChild(mainCompanyList.lastChild);
+        }
+        
+        var inlineOrBlock;
+        //checks it's orientation and changes based on toggleSwitch
         if(toggleSwitch){
             toggleSwitch = false;
-            while(mainCompanyList.hasChildNodes()){
-                mainCompanyList.removeChild(mainCompanyList.lastChild);
-            }
-            chicagoStartups.forEach( function(chicagoStartup, index) {
-                var childDiv = document.createElement('div');
-                var text = document.createTextNode(index.toString().concat(' .) ').concat(chicagoStartup));
-                childDiv.appendChild(text);
-                childDiv.style.display= 'inline';
-                mainCompanyList.appendChild(childDiv);
-            });
+            //sets orientation
+            inlineOrBlock = 'inline';
+            
 
         }
         else{
             toggleSwitch = true;
-            while(mainCompanyList.hasChildNodes()){
-                mainCompanyList.removeChild(mainCompanyList.lastChild);
-            }
-            chicagoStartups.forEach( function(chicagoStartup, index) {
-                var childDiv = document.createElement('div');
-                var text = document.createTextNode(index.toString().concat(' .) ').concat(chicagoStartup));
-                childDiv.appendChild(text);
-                childDiv.style.display='block';
-                mainCompanyList.appendChild(childDiv);
-            });
+            inlineOrBlock = 'block';
         }
+        
+        //rebuilds the list with the altered orientation
+        chicagoStartups.forEach( function(chicagoStartup, index) {
+            var childDiv = document.createElement('div');
+            var text = document.createTextNode(index.toString().concat(' .) ').concat(chicagoStartup));
+            childDiv.appendChild(text);
+            childDiv.style.display= inlineOrBlock;
+            mainCompanyList.appendChild(childDiv);
+        });
+        
     }
     
     function run() {
@@ -269,9 +274,10 @@
     var flags = {
         displayInstructions: true
     };
-    displayHW();
+
+
     //TODO INVOKE THIS ANONYMOUS FUNCTION TO DISPLAY HOMEWORK INSTRUCTIONS IN THE CONSOLE
-    function displayHW() {
+    (function (){
         if (flags.displayInstructions) {
             console.log(`
                             ASSUMPTIONS: !!! NO JQUERY !!! 
@@ -306,6 +312,6 @@
                         `);
         }
         
-    }
+    }) ();
 
 </script>
